@@ -85,6 +85,12 @@ typedef enum {
 	ParameterLast
 } ParamName;
 
+typedef enum {
+	Normal,
+	Insert,
+	Passthrough
+} Mode;
+
 typedef union {
 	int i;
 	float f;
@@ -117,6 +123,7 @@ typedef struct {
 	guint keyval;
 	void (*func)(Client *c, const Arg *a);
 	const Arg arg;
+	const Mode mode;
 } Key;
 
 typedef struct {
@@ -231,6 +238,7 @@ static void togglefullscreen(Client *c, const Arg *a);
 static void togglecookiepolicy(Client *c, const Arg *a);
 static void toggleinspector(Client *c, const Arg *a);
 static void find(Client *c, const Arg *a);
+static void changemode(Client *c, const Arg *a);
 
 /* Buttons */
 static void clicknavigate(Client *c, const Arg *a, WebKitHitTestResult *h);
@@ -241,6 +249,7 @@ static char winid[64];
 static char togglestats[12];
 static char pagestats[2];
 static Atom atoms[AtomLast];
+static Mode mode;
 static Window embed;
 static int showxid;
 static int cookiepolicy;
@@ -629,11 +638,11 @@ updatetitle(Client *c)
 		getpagestats(c);
 
 		if (c->progress != 100)
-			title = g_strdup_printf("[%i%%] %s:%s | %s",
-			        c->progress, togglestats, pagestats, name);
+			title = g_strdup_printf("[%i%%] %s:%s (%c) | %s",
+			        c->progress, togglestats, pagestats, modeindicator[mode], name);
 		else
-			title = g_strdup_printf("%s:%s | %s",
-			        togglestats, pagestats, name);
+			title = g_strdup_printf("%s:%s (%c) | %s",
+			        togglestats, pagestats, modeindicator[mode], name);
 
 		gtk_window_set_title(GTK_WINDOW(c->win), title);
 		g_free(title);
@@ -1335,14 +1344,18 @@ winevent(GtkWidget *w, GdkEvent *e, Client *c)
 	case GDK_KEY_PRESS:
 		if (!curconfig[KioskMode].val.i) {
 			for (i = 0; i < LENGTH(keys); ++i) {
-				if (gdk_keyval_to_lower(e->key.keyval) ==
-				    keys[i].keyval &&
+				if (mode == keys[i].mode &&
+				    gdk_keyval_to_lower(e->key.keyval) == keys[i].keyval &&
 				    CLEANMASK(e->key.state) == keys[i].mod &&
 				    keys[i].func) {
 					updatewinid(c);
 					keys[i].func(c, &(keys[i].arg));
 					return TRUE;
 				}
+			}
+
+			if (mode == Normal) {
+				return TRUE;
 			}
 		}
 	case GDK_LEAVE_NOTIFY:
@@ -1945,6 +1958,13 @@ find(Client *c, const Arg *a)
 		if (strcmp(s, "") == 0)
 			webkit_find_controller_search_finish(c->finder);
 	}
+}
+
+void
+changemode(Client *c, const Arg *a)
+{
+	mode = a->i;
+	updatetitle(c);
 }
 
 void
