@@ -7,8 +7,16 @@ static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
 
-/* a char for each mode, in the order declared */
-static char *modeindicator  = "NIP";
+/* properties for each mode */
+/* indicator shows in the window title between parenthesis
+ * catch indicates if non matching keybinds in current mode should be catch.
+ *       this is useful for command processing modes */
+static ModeProperty modes[] = {
+	/*                indicator   catch */
+	[Normal]      = { "N",        TRUE },
+	[Insert]      = { "I",        FALSE },
+	[Passthrough] = { "P",        FALSE }
+};
 
 /* Webkit default features */
 /* Highest priority value will be used.

@@ -147,6 +147,11 @@ typedef struct {
 	regex_t re;
 } SiteSpecific;
 
+typedef struct {
+	char *ind;
+	gboolean catch;
+} ModeProperty;
+
 /* Surf */
 static void usage(void);
 static void setup(void);
@@ -638,11 +643,11 @@ updatetitle(Client *c)
 		getpagestats(c);
 
 		if (c->progress != 100)
-			title = g_strdup_printf("[%i%%] %s:%s (%c) | %s",
-			        c->progress, togglestats, pagestats, modeindicator[mode], name);
+			title = g_strdup_printf("[%i%%] %s:%s (%s) | %s",
+			        c->progress, togglestats, pagestats, modes[mode].ind, name);
 		else
-			title = g_strdup_printf("%s:%s (%c) | %s",
-			        togglestats, pagestats, modeindicator[mode], name);
+			title = g_strdup_printf("%s:%s (%s) | %s",
+			        togglestats, pagestats, modes[mode].ind, name);
 
 		gtk_window_set_title(GTK_WINDOW(c->win), title);
 		g_free(title);
@@ -1354,7 +1359,7 @@ winevent(GtkWidget *w, GdkEvent *e, Client *c)
 				}
 			}
 
-			if (mode == Normal) {
+			if (modes[mode].catch) {
 				return TRUE;
 			}
 		}
