@@ -1,11 +1,12 @@
 /* modifier 0 means no modifier */
 static int surfuseragent    = 1;  /* Append Surf version to default WebKit user agent */
-static char *fulluseragent  = ""; /* Or override the whole user agent string */
-static char *scriptfile     = "~/.local/share/surf/script.js";
-static char *styledir       = "~/.local/share/surf/styles/";
-static char *certdir        = "~/.local/share/surf/certificates/";
+// static char *fulluseragent  = "Mozilla/5.0 (Windows NT 10.0; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4086.0 Safari/537.36"; /* Or override the whole user agent string */
+static char *fulluseragent  = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.3538.77 Safari/537.36"; /* Or override the whole user agent string */
+static char *scriptfile     = "~/.config/surf/script.js";
+static char *styledir       = "~/.config/surf/styles/";
+static char *certdir        = "~/.config/surf/certificates/";
 static char *cachedir       = "~/.cache/surf/";
-static char *cookiefile     = "~/.local/share/surf/cookies.txt";
+static char *cookiefile     = "~/.config/surf/cookies.txt";
 
 /* properties for each mode */
 /* indicator shows in the window title between parenthesis
@@ -36,7 +37,7 @@ static Parameter defconfig[ParameterLast] = {
 	[DiskCache]           =       { { .i = 1 },     },
 	[DNSPrefetch]         =       { { .i = 0 },     },
 	[FileURLsCrossAccess] =       { { .i = 0 },     },
-	[FontSize]            =       { { .i = 12 },    },
+	[FontSize]            =       { { .i = 18 },    },
 	[FrameFlattening]     =       { { .i = 0 },     },
 	[Geolocation]         =       { { .i = 0 },     },
 	[HideBackground]      =       { { .i = 0 },     },
@@ -52,13 +53,13 @@ static Parameter defconfig[ParameterLast] = {
 	[ScrollBars]          =       { { .i = 1 },     },
 	[ShowIndicators]      =       { { .i = 1 },     },
 	[SiteQuirks]          =       { { .i = 1 },     },
-	[SmoothScrolling]     =       { { .i = 0 },     },
+	[SmoothScrolling]     =       { { .i = 1 },     },
 	[SpellChecking]       =       { { .i = 1 },     },
 	[SpellLanguages]      =       { { .v = ((char *[]){ "en_US", "es_AR", NULL }) }, },
 	[StrictTLS]           =       { { .i = 1 },     },
 	[Style]               =       { { .i = 1 },     },
 	[WebGL]               =       { { .i = 0 },     },
-	[ZoomLevel]           =       { { .f = 1.0 },   },
+	[ZoomLevel]           =       { { .f = 1.25 },   },
 };
 
 static UriParameters uriparams[] = {
@@ -146,7 +147,7 @@ static Key keys[] = {
 	{ MODKEY,                GDK_KEY_v,      changemode, { .i = Passthrough }, Normal },
 	{ GDK_SHIFT_MASK,        GDK_KEY_Escape, changemode, { 0 },                Passthrough },
 	{ 0,                     GDK_KEY_o,      spawn,      SETPROP("_SURF_URI", "_SURF_GO", PROMPT_GO) },
-	{ GDK_SHIFT_MASK,        GDK_KEY_slash,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
+	{ 0,                     GDK_KEY_slash,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
@@ -154,21 +155,25 @@ static Key keys[] = {
 	{ GDK_SHIFT_MASK,        GDK_KEY_r,      reload,     { .i = 1 } },
 	{ 0,                     GDK_KEY_r,      reload,     { .i = 0 } },
 
-	{ GDK_SHIFT_MASK,        GDK_KEY_l,      navigate,   { .i = +1 } },
-	{ GDK_SHIFT_MASK,        GDK_KEY_h,      navigate,   { .i = -1 } },
+	{ 0,                     GDK_KEY_l,      navigate,   { .i = +1 } },
+	{ 0,                     GDK_KEY_h,      navigate,   { .i = -1 } },
 
 	/* vertical and horizontal scrolling, in viewport percentage */
 	{ 0,                     GDK_KEY_j,      scrollv,    { .i = +10 } },
 	{ 0,                     GDK_KEY_k,      scrollv,    { .i = -10 } },
-	{ MODKEY,                GDK_KEY_d,      scrollv,    { .i = +50 } },
-	{ MODKEY,                GDK_KEY_u,      scrollv,    { .i = -50 } },
-	{ 0,                     GDK_KEY_l,      scrollh,    { .i = +10 } },
-	{ 0,                     GDK_KEY_h,      scrollh,    { .i = -10 } },
+	{ 0,                     GDK_KEY_d,      scrollv,    { .i = +50 } },
+	{ 0,                     GDK_KEY_u,      scrollv,    { .i = -50 } },
+
+	// { GDK_SHIFT_MASK,        GDK_KEY_g,      scrollv,    { .i = +1000 } },
+	// { GDK_KEY_g,             GDK_KEY_g,      scrollv,    { .i = -1000 } },
+
+	{ GDK_SHIFT_MASK,        GDK_KEY_l,      scrollh,    { .i = +10 } },
+	{ GDK_SHIFT_MASK,        GDK_KEY_h,      scrollh,    { .i = -10 } },
 
 
 	{ 0,                     GDK_KEY_minus,  zoom,       { .i = -1 } },
-	{ 0,                     GDK_KEY_plus,   zoom,       { .i = +1 } },
-	{ 0,                     GDK_KEY_equal,  zoom,       { .i = 0  } },
+	{ 0,                     GDK_KEY_equal,  zoom,       { .i = +1 } },
+	{ MODKEY,                GDK_KEY_equal,  zoom,       { .i = 0  } },
 
 	{ 0,                     GDK_KEY_p,      clipboard,  { .i = 1 } },
 	{ 0,                     GDK_KEY_y,      clipboard,  { .i = 0 } },
