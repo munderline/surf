@@ -80,6 +80,7 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 #define PROMPT_GO   "Go:"
 #define PROMPT_FIND "Find:"
 
+#define HOMEPAGE "https://cn.bing.com/"
 #define SEARCH() { \
         .v = (const char *[]){ "/bin/sh", "-c", \
              "xprop -id $1 -f $2 8s -set $2 \"" \
