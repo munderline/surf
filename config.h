@@ -7,6 +7,8 @@ static char *styledir       = "~/.config/surf/styles/";
 static char *certdir        = "~/.config/surf/certificates/";
 static char *cachedir       = "~/.cache/surf/";
 static char *cookiefile     = "~/.config/surf/cookies.txt";
+// static char *searchurl      = "duckduckgo.com/?q=%s";
+static char *searchurl      = "www.dogedoge.com/results?q=%s";
 
 /* properties for each mode */
 /* indicator shows in the window title between parenthesis
@@ -77,6 +79,14 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 
 #define PROMPT_GO   "Go:"
 #define PROMPT_FIND "Find:"
+
+#define SEARCH() { \
+        .v = (const char *[]){ "/bin/sh", "-c", \
+             "xprop -id $1 -f $2 8s -set $2 \"" \
+             "$(dmenu -p Search: -w $1 < /dev/null)\"", \
+             "surf-search", winid, "_SURF_SEARCH", NULL \
+        } \
+}
 
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
@@ -151,6 +161,7 @@ static Key keys[] = {
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
+ 	{ MODKEY,                GDK_KEY_s,      spawn,      SEARCH() },
 
 	{ GDK_SHIFT_MASK,        GDK_KEY_r,      reload,     { .i = 1 } },
 	{ 0,                     GDK_KEY_r,      reload,     { .i = 0 } },
