@@ -1,0 +1,21 @@
+div {
+	background-color: #111111 !important;
+	color: #d0d0d0 !important;
+}
+
+*, pre,textarea,body,input,td,tr,p {
+	background-color: black !important;
+	color: #d0d0d0 !important;
+}
+
+
+h1,h2,h3,h4 {
+	background-color: black !important;
+	color: #e02020 !important;
+}
+
+a {
+	color: #b0e0b0 !important;
+}
+
+
