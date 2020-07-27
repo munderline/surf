@@ -1,7 +1,8 @@
 /* modifier 0 means no modifier */
 static int surfuseragent    = 1;  /* Append Surf version to default WebKit user agent */
+static char *fulluseragent  = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36 Edg/80.0.361.62"; /* Or override the whole user agent string */
 // static char *fulluseragent  = "Mozilla/5.0 (Windows NT 10.0; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4086.0 Safari/537.36"; /* Or override the whole user agent string */
-static char *fulluseragent  = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.3538.77 Safari/537.36"; /* Or override the whole user agent string */
+// static char *fulluseragent  = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.3538.77 Safari/537.36"; /* Or override the whole user agent string */
 static char *scriptfile     = "~/.config/surf/script.js";
 static char *styledir       = "~/.config/surf/styles/";
 static char *certdir        = "~/.config/surf/certificates/";
@@ -56,12 +57,12 @@ static Parameter defconfig[ParameterLast] = {
 	[ShowIndicators]      =       { { .i = 1 },     },
 	[SiteQuirks]          =       { { .i = 1 },     },
 	[SmoothScrolling]     =       { { .i = 1 },     },
-	[SpellChecking]       =       { { .i = 1 },     },
+	[SpellChecking]       =       { { .i = 0 },     },
 	[SpellLanguages]      =       { { .v = ((char *[]){ "en_US", "es_AR", NULL }) }, },
 	[StrictTLS]           =       { { .i = 1 },     },
 	[Style]               =       { { .i = 1 },     },
 	[WebGL]               =       { { .i = 0 },     },
-	[ZoomLevel]           =       { { .f = 1.25 },   },
+	[ZoomLevel]           =       { { .f = 1.5 },   },
 };
 
 static UriParameters uriparams[] = {
