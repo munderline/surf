@@ -1,1 +1,17 @@
-html, img { -webkit-filter: invert(85%) hue-rotate(180deg); }
+/* light */
+html{
+    /* -webkit-filter: invert(25%) hue-rotate(0deg) brightness(75%) contrast(105%); */
+}
+
+/* dark */
+html {
+    -webkit-filter: invert(100%) hue-rotate(180deg) brightness(65%) contrast(80%);
+}
+
+html img {
+    filter: invert(100%) hue-rotate(180deg);
+}
+
+html {
+    transition: color 450ms, background-color 450ms;
+}
