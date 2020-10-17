@@ -9,7 +9,8 @@ static char *certdir        = "~/.config/surf/certificates/";
 static char *cachedir       = "~/.cache/surf/";
 static char *cookiefile     = "~/.config/surf/cookies.txt";
 // static char *searchurl      = "duckduckgo.com/?q=%s";
-static char *searchurl      = "www.dogedoge.com/results?q=%s";
+// static char *searchurl      = "www.dogedoge.com/results?q=%s";
+static char *searchurl      = "https://mijisou.com/?q=%s";
 
 /* properties for each mode */
 /* indicator shows in the window title between parenthesis
@@ -81,7 +82,8 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 #define PROMPT_GO   "Go:"
 #define PROMPT_FIND "Find:"
 
-#define HOMEPAGE "https://cn.bing.com/"
+// #define HOMEPAGE "https://cn.bing.com/"
+#define HOMEPAGE "https://mijisou.com"
 #define SEARCH() { \
         .v = (const char *[]){ "/bin/sh", "-c", \
              "xprop -id $1 -f $2 8s -set $2 \"" \
